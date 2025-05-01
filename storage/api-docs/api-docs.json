@@ -1,0 +1,826 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Flight Booking API",
+        "description": "API untuk manajemen pemesanan tiket penerbangan",
+        "contact": {
+            "email": "support@flightapi.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local Server"
+        }
+    ],
+    "paths": {
+        "/api/airlines": {
+            "get": {
+                "tags": [
+                    "Airlines"
+                ],
+                "summary": "Daftar semua maskapai",
+                "operationId": "565ee46e29b69ec45dc5ffbb0539456a",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Airline"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Airlines"
+                ],
+                "summary": "Buat maskapai baru",
+                "operationId": "a13786f5661b2941b9928d6e5d09adf9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AirlineRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Maskapai berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Airline"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "adminAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Registrasi pengguna baru",
+                "operationId": "40a6b97febc3568c95b931653c95430f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRegister"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registrasi berhasil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User registered successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login pengguna",
+                "operationId": "b1d657163b146965516b9656a60d29fb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserLogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login berhasil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bookings": {
+            "get": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Get semua booking user",
+                "operationId": "356a7ea9a324e98925d4986becf84abc",
+                "responses": {
+                    "200": {
+                        "description": "Daftar booking",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Booking"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Bookings"
+                ],
+                "summary": "Buat booking baru",
+                "operationId": "59d08628e5df40e43c648e9974a976a5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BookingRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Booking berhasil dibuat"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/destinations": {
+            "get": {
+                "tags": [
+                    "Destinations"
+                ],
+                "summary": "Get semua destinasi",
+                "operationId": "6df8c049831d7703ea26fe4d59593485",
+                "responses": {
+                    "200": {
+                        "description": "Daftar destinasi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Destination"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Destinations"
+                ],
+                "summary": "Buat destinasi baru",
+                "operationId": "a7738794068365285388051fd2a7a2a9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DestinationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Destinasi berhasil dibuat"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/flights": {
+            "get": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Get semua jadwal penerbangan",
+                "operationId": "2fdf0c9c290c4b417f5a5b2b0abf421e",
+                "parameters": [
+                    {
+                        "name": "destination_id",
+                        "in": "query",
+                        "description": "Filter by destinasi",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar penerbangan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Flight"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Buat jadwal penerbangan baru",
+                "operationId": "8b251517549ca3f4df1560e486cb69d8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FlightRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Jadwal penerbangan berhasil dibuat"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "admin": []
+                    }
+                ]
+            }
+        },
+        "/api/payments": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Buat transaksi pembayaran",
+                "operationId": "14181b789748f91fc26f67b8718684fc",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pembayaran berhasil dibuat"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/payments/{payment}": {
+            "put": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Update status pembayaran",
+                "operationId": "2d15d54768c3454e3afc19f00e2a4384",
+                "parameters": [
+                    {
+                        "name": "payment",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pembayaran berhasil diupdate"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get semua user",
+                "operationId": "efc650aacdac7c99484ac4ec0f173ce8",
+                "responses": {
+                    "200": {
+                        "description": "Daftar user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/profile": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get profil user",
+                "operationId": "cde5b7323178f5da0eeb173e36e32bdb",
+                "responses": {
+                    "200": {
+                        "description": "Profil user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfile"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "required": [
+                    "name",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@example.com"
+                    },
+                    "preferences": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "UserRegister": {
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "UserLogin": {
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "LoginResponse": {
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "example": "1|abcdef123456"
+                    }
+                },
+                "type": "object"
+            },
+            "UserProfile": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@example.com"
+                    },
+                    "preferences": {
+                        "type": "string",
+                        "example": "Window Seat",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Airline": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Garuda Indonesia"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "National Flag Carrier"
+                    },
+                    "class": {
+                        "type": "string",
+                        "example": "Business"
+                    }
+                },
+                "type": "object"
+            },
+            "AirlineRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Garuda Indonesia"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "National Flag Carrier"
+                    },
+                    "class": {
+                        "type": "string",
+                        "example": "Business"
+                    }
+                },
+                "type": "object"
+            },
+            "Flight": {
+                "required": [
+                    "destination_id",
+                    "airline_id",
+                    "departure_time"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "destination_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "airline_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "departure_time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-20 08:00:00"
+                    },
+                    "arrival_time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-20 10:00:00"
+                    },
+                    "direct_flight": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "FlightRequest": {
+                "required": [
+                    "destination_id",
+                    "airline_id",
+                    "departure_time"
+                ],
+                "properties": {
+                    "destination_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "airline_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "departure_time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-20 08:00:00"
+                    },
+                    "arrival_time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-20 10:00:00"
+                    },
+                    "direct_flight": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "Destination": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Paris"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "City of Light"
+                    }
+                },
+                "type": "object"
+            },
+            "DestinationRequest": {
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Paris"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "City of Light"
+                    }
+                },
+                "type": "object"
+            },
+            "Booking": {
+                "required": [
+                    "flight_id"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "flight_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-19 15:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "BookingRequest": {
+                "required": [
+                    "flight_id"
+                ],
+                "properties": {
+                    "flight_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    }
+                },
+                "type": "object"
+            },
+            "Payment": {
+                "required": [
+                    "user_id",
+                    "flight_id",
+                    "amount"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "flight_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 250.5
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-03-19 15:30:00"
+                    }
+                },
+                "type": "object"
+            },
+            "PaymentRequest": {
+                "required": [
+                    "flight_id",
+                    "amount"
+                ],
+                "properties": {
+                    "flight_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "amount": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 500.75
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            },
+            "adminAuth": {
+                "type": "apiKey",
+                "name": "X-Admin-Key",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Airlines",
+            "description": "Airlines"
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Bookings",
+            "description": "Bookings"
+        },
+        {
+            "name": "Destinations",
+            "description": "Destinations"
+        },
+        {
+            "name": "Flights",
+            "description": "Flights"
+        },
+        {
+            "name": "Payments",
+            "description": "Payments"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
